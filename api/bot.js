@@ -9,9 +9,17 @@ let userStep = {};
 
 module.exports = async (req, res) => {
 
+// ===== FIX SERVER CRASH =====
+
+if(req.method === "GET"){
+return res.status(200).send("BOT IS RUNNING ✅");
+}
+
 const body = req.body;
 
-if(body.message){
+if(!body || !body.message){
+return res.status(200).send("NO MESSAGE");
+}
 
 const chatId = body.message.chat.id;
 const text = body.message.text;
@@ -121,7 +129,8 @@ const message = args.slice(2).join(" ");
 if(!userId || !message){
 
 await bot.sendMessage(chatId,
-"❌ Use:\n/reply USERID MESSAGE");
+"❌ USE:\n/reply USERID MESSAGE");
+
 return;
 }
 
@@ -134,10 +143,8 @@ ${message}`
 
 await bot.sendMessage(
 chatId,
-"✅ Reply Sent Successfully"
+"✅ REPLY SENT SUCCESSFULLY"
 );
-
-}
 
 }
 
